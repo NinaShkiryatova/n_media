@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/common_spacing">
+
+    <ImageView
+        android:id="@+id/avatar"
+        android:src="@drawable/ic_launcher_foreground"
+        android:layout_width="@dimen/post_avatar_size"
+        android:layout_height="@dimen/post_avatar_size"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:contentDescription="@string/avatar_description" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/authorName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:layout_marginStart="@dimen/common_spacing"
+        android:layout_marginEnd="8dp"
+        android:text="@string/author_name"
+        android:ellipsize="end"
+        app:layout_constraintStart_toEndOf="@id/avatar"
+        app:layout_constraintEnd_toStartOf="@id/options"
+        app:layout_constraintTop_toTopOf="@id/avatar"
+        app:layout_constraintBottom_toTopOf="@id/date"
+        />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:id="@+id/date"
+        android:text="@string/date"
+        app:layout_constraintTop_toBottomOf="@id/authorName"
+        app:layout_constraintStart_toStartOf="@id/authorName"
+        app:layout_constraintEnd_toEndOf="@id/authorName"
+        app:layout_constraintBottom_toBottomOf="@id/avatar"
+
+        />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/options"
+        android:src="@drawable/ic_options_24dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintTop_toTopOf="@id/authorName"
+        app:layout_constraintStart_toEndOf="@id/authorName"
+        />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:id="@+id/headerBarrier"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="avatar, date, options"
+        />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/postText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:paddingBottom="8dp"
+        app:layout_constraintTop_toBottomOf="@id/headerBarrier"
+        android:text="@string/post_text"
+        />
+
+
+    <androidx.constraintlayout.widget.Barrier
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:id="@+id/textBarrier"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="postText"
+        />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/likes"
+        android:src="@drawable/ic_likes_24dp"
+        android:background="@android:color/transparent"
+        android:layout_marginTop="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textBarrier"
+        />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/likesCount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/likes"
+        app:layout_constraintStart_toEndOf="@id/likes"
+        android:layout_marginStart="8dp"
+        android:text="@string/likes_count"
+        />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/share"
+        android:src="@drawable/ic_share_24dp"
+        android:background="@android:color/transparent"
+        android:layout_marginStart="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/likesCount"
+        app:layout_constraintTop_toTopOf="@id/likes"
+        />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/shareCount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/likes"
+        app:layout_constraintStart_toEndOf="@id/share"
+        android:layout_marginStart="8dp"
+        android:text="@string/share_count"
+        />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/viewCount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/likes"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="8dp"
+        android:text="@string/view_count"
+        />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/views"
+        android:src="@drawable/ic_views_24dp"
+        android:background="@android:color/transparent"
+        android:layout_marginEnd="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@id/viewCount"
+        app:layout_constraintTop_toTopOf="@id/likes"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
