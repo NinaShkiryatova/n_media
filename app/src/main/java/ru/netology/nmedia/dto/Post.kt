@@ -6,8 +6,8 @@ data class Post (
     val content: String,
     val published: String,
     var likedByMe: Boolean = false,
-    var likesCount: Int,
-    var sharedCount: Int
+    var likesCount: Int = 0,
+    var sharedCount: Int = 0
 )
 
 fun formatCount (quantity: Int): String {
