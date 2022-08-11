@@ -9,4 +9,8 @@
     <string name="likes_count">10</string>
     <string name="share_count">5</string>
     <string name="view_count">5</string>
+    <string name="remove">Удалить</string>
+    <string name="save_button">Кнопка сохранения</string>
+    <string name="edit_text">Введите текст</string>
+    <string name="edit">Редактировать</string>
 </resources>

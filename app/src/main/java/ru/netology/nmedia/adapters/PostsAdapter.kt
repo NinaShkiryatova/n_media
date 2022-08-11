@@ -1,25 +1,24 @@
-package ru.netology.nmedia.data.impl
+package ru.netology.nmedia.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import ru.netology.nmedia.R
 import ru.netology.nmedia.databinding.PostCardBinding
 import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.dto.formatCount
 import kotlin.properties.Delegates
 
-typealias OnItemListener = (Long) -> Unit
-
 internal class PostsAdapter(
-    private val likeById: OnItemListener,
-    private val shareById: OnItemListener
+    private val interactionListener: PostInteractionListener
 ): ListAdapter<Post, PostsAdapter.PostViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
         val binding = PostCardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return PostViewHolder(binding, likeById, shareById)
+        return PostViewHolder(binding, interactionListener)
     }
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
@@ -29,18 +28,36 @@ internal class PostsAdapter(
 
     inner class PostViewHolder(
         private val binding: PostCardBinding,
-        private val likeById: OnItemListener,
-        private val shareById: OnItemListener
+        listener: PostInteractionListener
     ) : RecyclerView.ViewHolder(binding.root) {
 
         private lateinit var post: Post
 
-        init{
+        private val popupMenu by lazy {
+            PopupMenu(itemView.context, binding.menu).apply{
+                inflate(R.menu.options_post)
+                setOnMenuItemClickListener{item ->
+                    when(item.itemId){
+                        R.id.remove -> {
+                            listener.removeById(post.id)
+                            true
+                        }
+                        R.id.edit -> {
+                            listener.editPost(post)
+                            true
+                        }
+                        else -> false
+                    }
+                }
+            }
+        }
+
+        init {
             binding.likes.setOnClickListener {
-                likeById(post.id)
+                listener.likeById(post.id)
             }
             binding.share.setOnClickListener {
-                shareById(post.id)
+                listener.shareById(post.id)
             }
         }
 
@@ -55,6 +72,7 @@ internal class PostsAdapter(
                 likes.setImageResource(
                     if (post.likedByMe) ru.netology.nmedia.R.drawable.ic_redlikes_24dp else ru.netology.nmedia.R.drawable.ic_likes_24dp
                 )
+                menu.setOnClickListener{popupMenu.show()}
             }
 
         }

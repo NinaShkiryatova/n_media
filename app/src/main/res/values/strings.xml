@@ -8,4 +8,8 @@
     <string name="likes_count">10</string>
     <string name="share_count">5</string>
     <string name="view_count">500</string>
+    <string name="remove">Remove</string>
+    <string name="save_button">Save button</string>
+    <string name="edit_text">Insert text</string>
+    <string name="edit">Edit</string>
 </resources>
