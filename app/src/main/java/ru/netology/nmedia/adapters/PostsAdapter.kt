@@ -59,6 +59,7 @@ internal class PostsAdapter(
             binding.share.setOnClickListener {
                 listener.shareById(post.id)
             }
+            binding.menu.setOnClickListener{popupMenu.show()}
         }
 
         fun bind(post: Post) {
@@ -67,14 +68,10 @@ internal class PostsAdapter(
                 authorName.text = post.author
                 date.text = post.published
                 postText.text = post.content
-                likesCount.text = formatCount(post.likesCount)
-                shareCount.text = formatCount(post.sharedCount)
-                likes.setImageResource(
-                    if (post.likedByMe) ru.netology.nmedia.R.drawable.ic_redlikes_24dp else ru.netology.nmedia.R.drawable.ic_likes_24dp
-                )
-                menu.setOnClickListener{popupMenu.show()}
+                likes.text = formatCount(post.likesCount)
+                likes.isChecked = post.likedByMe
+                share.text = formatCount(post.sharedCount)
             }
-
         }
     }
 
