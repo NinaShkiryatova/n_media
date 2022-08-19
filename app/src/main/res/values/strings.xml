@@ -12,4 +12,9 @@
     <string name="save_button">Save button</string>
     <string name="edit_text">Insert text</string>
     <string name="edit">Edit</string>
+    <string name="chooser_share_post">Share Post</string>
+    <string name="description_post_save">Save Post</string>
+    <string name="add_post_button">Add new Post</string>
+    <string name="edit_post">Edit Post</string>
+    <string name="chooser_play_video">Play video</string>
 </resources>

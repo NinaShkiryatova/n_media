@@ -2,6 +2,7 @@ package ru.netology.nmedia.data.impl
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import ru.netology.nmedia.R
 import ru.netology.nmedia.data.PostRepository
 import ru.netology.nmedia.dto.Post
 
@@ -16,10 +17,11 @@ class InMemoryPostRepository : PostRepository {
 
     override val data = MutableLiveData(
         List(GENERATED_POSTS_AMOUNT) { index ->
-            Post(
+            return@List Post(
                 id = index + 1L,
                 author = "Нетология.",
-                content = "Пост ${index+1}",
+                content = "Пост ${index + 1}",
+                video = if (index == 2) "https://netology.ru/" else null,
                 published = "02 июня в 18:37",
                 likedByMe = false
             )
@@ -40,7 +42,6 @@ class InMemoryPostRepository : PostRepository {
             )
         }
         data.value = posts
-
     }
 
     override fun shareById(id: Long) {
@@ -60,8 +61,8 @@ class InMemoryPostRepository : PostRepository {
     }
 
     private fun update(post: Post) {
-        data.value = posts.map{
-            if(it.id == post.id) post else it
+        data.value = posts.map {
+            if (it.id == post.id) post else it
         }
     }
 
@@ -69,7 +70,6 @@ class InMemoryPostRepository : PostRepository {
         data.value = listOf(post.copy(id = ++nextId)) + posts
 
     }
-
 
     private companion object {
         const val GENERATED_POSTS_AMOUNT = 10
