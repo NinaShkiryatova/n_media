@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import ru.netology.nmedia.R
 import ru.netology.nmedia.activity.PostContentFragment.Companion.textArg
+import ru.netology.nmedia.activity.SinglePostFragment.Companion.numArg
 import ru.netology.nmedia.adapters.PostInteractionListener
 import ru.netology.nmedia.adapters.PostsAdapter
 import ru.netology.nmedia.databinding.FragmentFeedBinding
@@ -63,6 +64,15 @@ class FeedFragment : Fragment() {
                 val shareIntent = Intent.createChooser(intent, getString(R.string.chooser_play_video))
                 startActivity(shareIntent)
             }
+
+            override fun showPost(post: Post) {
+                viewModel.showPost(post)
+                findNavController().navigate(
+                    R.id.action_feedFragment_to_singlePostFragment,
+                    Bundle().apply { numArg = post.id }
+                )
+            }
+
         })
 
         binding.list.adapter = adapter
@@ -73,7 +83,5 @@ class FeedFragment : Fragment() {
             findNavController().navigate(R.id.action_feedFragment_to_postContentFragment)
         }
         return binding.root
-
     }
-
 }

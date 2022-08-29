@@ -18,7 +18,7 @@ private val defaultPost = Post(
 
 class PostViewModel(
     application: Application
-) : AndroidViewModel(application)/*, PostInteractionListener*/ {
+) : AndroidViewModel(application) {
 
     private val repository: PostRepository = FilePostRepository(application)
     val data = repository.getAll()
@@ -51,14 +51,9 @@ class PostViewModel(
 
     fun likeById(id: Long) = repository.likeById(id)
 
-    /*fun shareById(post: Post) {
-        repository.shareById(post.id)
-        sharePostContent.value = post.content
-    }*/
-
     fun removeById(id: Long) = repository.removeById(id)
 
-    /*fun playVideo(post: Post) {
-        playVideoFromPostEvent.value = post.video
-    }*/
+    fun showPost(post: Post) {
+        currentPost.value = post
+    }
 }
