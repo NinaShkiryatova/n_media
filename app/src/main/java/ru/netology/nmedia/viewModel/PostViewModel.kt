@@ -3,66 +3,62 @@ package ru.netology.nmedia.viewModel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import ru.netology.nmedia.adapters.PostInteractionListener
 import ru.netology.nmedia.data.PostRepository
 import ru.netology.nmedia.data.impl.FilePostRepository
 import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.util.SingleLiveEvent
 
+private val defaultPost = Post(
+    id = 0,
+    author = "",
+    content = "",
+    likedByMe = false,
+    published = ""
+)
+
 class PostViewModel(
     application: Application
-) : AndroidViewModel(application), PostInteractionListener {
+) : AndroidViewModel(application)/*, PostInteractionListener*/ {
+
     private val repository: PostRepository = FilePostRepository(application)
-
     val data = repository.getAll()
+    private var currentPost = MutableLiveData(defaultPost)
 
-    val sharePostContent = SingleLiveEvent<String>()
-    val playVideoFromPostEvent = SingleLiveEvent<String?>()
-    val navigateToPostContentScreenEvent = SingleLiveEvent<Unit>()
-    val navigateToEditPostScreenEvent = SingleLiveEvent<Unit>()
-    val currentPost = MutableLiveData<Post?>(null)
 
-    fun saveClicked(content: String) {
-        if (content.isBlank()) return
+    //val sharePostContent = SingleLiveEvent<String>()
+    //val playVideoFromPostEvent = SingleLiveEvent<String?>()
 
-        val post = currentPost.value?.copy(
-            content = content
-        ) ?: Post(
-            id = PostRepository.NEW_POST_ID,
-            author = "Author",
-            content = content,
-            video = "ytr",
-            published = "Today"
-        )
-        repository.save(post)
-        currentPost.value = null
+
+
+    fun saveClicked() {
+        currentPost.value?.let{
+            repository.save(it)
+        }
+        currentPost.value = defaultPost
     }
 
-    fun onAddClicked() {
-        navigateToPostContentScreenEvent.call()
+    fun editPost(post: Post) {
+        currentPost.value = post
     }
 
     fun editResult(content: String) {
-        currentPost.value?.content = content
-        repository.save(currentPost.value!!)
+        val postText = content.trim()
+        if(currentPost.value?.content == postText){
+            return
+        }
+        currentPost.value = currentPost.value?.copy(content = postText)
     }
 
-    override fun likeById(id: Long) = repository.likeById(id)
+    fun likeById(id: Long) = repository.likeById(id)
 
-    override fun shareById(post: Post) {
+    /*fun shareById(post: Post) {
         repository.shareById(post.id)
         sharePostContent.value = post.content
-    }
+    }*/
 
-    override fun removeById(id: Long) = repository.removeById(id)
+    fun removeById(id: Long) = repository.removeById(id)
 
-    override fun editPost(post: Post) {
-        currentPost.value = post
-        navigateToEditPostScreenEvent.call()
-    }
-
-    override fun playVideo(post: Post) {
+    /*fun playVideo(post: Post) {
         playVideoFromPostEvent.value = post.video
-    }
-
+    }*/
 }

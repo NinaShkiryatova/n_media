@@ -22,55 +22,17 @@ internal class PostsAdapter(
     }
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        var post = getItem(position)
+        holder.bind(post)
     }
 
     inner class PostViewHolder(
         private val binding: PostCardBinding,
-        listener: PostInteractionListener
+        private val listener: PostInteractionListener
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        private lateinit var post: Post
-
-        private val popupMenu by lazy {
-            PopupMenu(itemView.context, binding.menu).apply {
-                inflate(R.menu.options_post)
-                setOnMenuItemClickListener { item ->
-                    when (item.itemId) {
-                        R.id.remove -> {
-                            listener.removeById(post.id)
-                            true
-                        }
-                        R.id.edit -> {
-                            listener.editPost(post)
-                            true
-                        }
-                        else -> false
-                    }
-                }
-            }
-        }
-
-        init {
-            binding.videoPicture.setOnClickListener {
-                listener.playVideo(post)
-            }
-
-            binding.playVideoButton.setOnClickListener {
-                listener.playVideo(post)
-            }
-
-            binding.likes.setOnClickListener {
-                listener.likeById(post.id)
-            }
-            binding.share.setOnClickListener {
-                listener.shareById(post)
-            }
-            binding.menu.setOnClickListener { popupMenu.show() }
-        }
 
         fun bind(post: Post) {
-            this.post = post
             binding.apply {
                 authorName.text = post.author
                 date.text = post.published
@@ -85,6 +47,40 @@ internal class PostsAdapter(
                 likes.text = formatCount(post.likesCount)
                 likes.isChecked = post.likedByMe
                 share.text = formatCount(post.sharedCount)
+
+                menu.setOnClickListener {
+                    PopupMenu(itemView.context, binding.menu).apply {
+                        inflate(R.menu.options_post)
+                        setOnMenuItemClickListener { item ->
+                            when (item.itemId) {
+                                R.id.remove -> {
+                                    listener.removeById(post.id)
+                                    true
+                                }
+                                R.id.edit -> {
+                                    listener.editPost(post)
+                                    true
+                                }
+                                else -> false
+                            }
+                        }
+                    }.show()
+                }
+                share.setOnClickListener {
+                    listener.shareById(post)
+                }
+
+                likes.setOnClickListener {
+                    listener.likeById(post.id)
+                }
+
+                playVideoButton.setOnClickListener {
+                    listener.playVideo(post)
+                }
+
+                videoPicture.setOnClickListener {
+                    listener.playVideo(post)
+                }
             }
         }
     }
