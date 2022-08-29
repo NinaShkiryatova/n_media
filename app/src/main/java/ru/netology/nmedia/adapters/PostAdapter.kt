@@ -34,6 +34,10 @@ internal class PostsAdapter(
 
         fun bind(post: Post) {
             binding.apply {
+                basicPostLayout.isClickable = true
+                basicPostLayout.setOnClickListener{
+                    listener.showPost(post)
+                }
                 authorName.text = post.author
                 date.text = post.published
                 postText.text = post.content

@@ -8,4 +8,5 @@ interface PostInteractionListener {
     fun removeById (id: Long)
     fun editPost(post: Post)
     fun playVideo(post: Post)
+    fun showPost(post: Post)
 }
